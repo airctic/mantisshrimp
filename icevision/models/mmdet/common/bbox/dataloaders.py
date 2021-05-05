@@ -111,7 +111,7 @@ def _img_meta(record):
 
 def _labels(record):
     if len(record.detection.label_ids) == 0:
-        raise RuntimeError("Negative samples still needs to be implemented")
+        return torch.empty(0)
     else:
         tensor_label_ids = tensor(record.detection.label_ids)
         labels = convert_background_from_zero_to_last(
@@ -122,7 +122,7 @@ def _labels(record):
 
 def _bboxes(record):
     if len(record.detection.label_ids) == 0:
-        raise RuntimeError("Negative samples still needs to be implemented")
+        return torch.empty((0, 4))
     else:
         xyxys = [bbox.xyxy for bbox in record.detection.bboxes]
         return tensor(xyxys, dtype=torch.float32)
